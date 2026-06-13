@@ -1,36 +1,118 @@
-=== IDENTITY ===
-Name: Arnav Gawandi
-Title: ML Engineer & Full-Stack Developer
-Bio: Passionate about building intelligent systems at the intersection of machine learning and software engineering. I specialize in agentic workflows, RAG architectures, and full-stack web development. Currently exploring Web3 and automation technologies.
-Location: India
-Portfolio: https://arnvgawandi.dev
-
-=== EDUCATION ===
-I am currently pursuing my education in Computer Science and Engineering. My coursework covers data structures, algorithms, machine learning, and software engineering principles. I have a strong academic foundation that complements my practical project experience.
-
-=== EXPERIENCE ===
-I have experience working on machine learning projects, full-stack web applications, and automation tools. My work spans across various domains including NLP, computer vision, and agentic AI systems. I've contributed to both individual and team-based projects.
-
-=== PROJECTS ===
-RAGfolio: A portfolio website with an integrated RAG-powered chatbot that can answer questions about me using retrieval-augmented generation. Built with React, FastAPI, and Pinecone.
-
-Smart Agent System: An intelligent query routing system that classifies user queries and routes them to appropriate pipelines — personal knowledge retrieval or general AI assistance.
-
-=== SKILLS ===
-Programming Languages: Python, JavaScript, TypeScript, Solidity
-ML/AI: PyTorch, TensorFlow, LangChain, RAG architectures, Agentic workflows
-Web Development: React, Next.js, FastAPI, Node.js, Three.js
-Databases: PostgreSQL, MongoDB, Pinecone, Redis
-Cloud & DevOps: AWS, GCP, Docker, Vercel, Render
-Web3: Solidity, Ethers.js, Smart Contracts
-
-=== INTERESTS ===
-I'm deeply interested in agentic AI systems, autonomous workflows, and the future of human-AI collaboration. Outside of tech, I enjoy exploring music, gaming, and creative coding projects. I'm also passionate about open-source contributions and building tools that help other developers.
-
-=== ACHIEVEMENTS ===
-Built and deployed multiple production ML systems. Active contributor to open-source projects. Developed innovative portfolio solutions combining RAG and smart agent architectures.
-
-=== CONTACT ===
-GitHub: github.com/arnvgawandi
-LinkedIn: linkedin.com/in/arnvgawandi
-Email: Available through portfolio contact form
+===========================================
+PERSONAL CONTEXT FILE — ARNAV GAWANDI
+(For RAG Model Training)
+===========================================
+
+--- PERSONAL IDENTITY ---
+Name: Arnav Gawandi
+Location: Mumbai, India
+Phone: 9920704194
+Email: arnavog@gmail.com
+LinkedIn: linkedin.com/in/arnav-gawandi
+GitHub: github.com/arnav-gawandi
+
+--- EDUCATION ---
+University: Dwarkadas J. Sanghvi College of Engineering (DJSCE)
+Degree: B.Tech in Computer Science and Engineering (specialization: Data Science)
+Duration: 2024 – 2028
+Location: Mumbai, India
+
+Prior Schooling: Ryan International School, Mumbai (High School)
+
+--- PROFESSIONAL EXPERIENCE ---
+
+1. Web-Dev Mentee | DJS S4DS & DJS CODEAI
+   Period: Aug 2025 – Aug 2026 | Mumbai, India
+   - Selected as a mentee in two prestigious college technical clubs focused on Data Science and AI.
+   - Gained hands-on experience in full-stack web development and AI-driven applications.
+   - Collaborated with senior developers to build and deploy AI-integrated web solutions.
+
+2. Web Developer | Konkanai Agro-Tourism
+   Period: 2025 | Mumbai, India
+   - Designed and developed a fully functional website for a tourism agency.
+   - Delivered a user-friendly interface showcasing agro-tourism offerings.
+   - Handled end-to-end development: UI design, content integration, and deployment.
+
+3. Domain Winners – WEB/APPLICATION | DJS ACM – Lines of Code 8.0
+   Period: Feb 2026 | Juhu, Mumbai
+   - Won the Web/Application domain at Lines of Code 8.0, a competitive hackathon by DJS ACM.
+   - Demonstrated strong full-stack development and problem-solving skills under time constraints.
+
+--- PROJECTS ---
+
+1. AI-Based ML Online Compiler
+   Tech Stack: Python, Pyodide, WebAssembly, LLM Orchestration
+   - Browser-based ML compiler using a multi-agent LLM orchestrator.
+   - Streams generated Python code and executes it client-side via Pyodide WebAssembly runtime (zero setup).
+   - Enforced strict LLM prompt contract achieving >95% first-run execution success rate.
+   - Shipped "Autopilot" — an agentic pipeline that plans and streams live hyperparameter trials and pre-positions user controls at the optimal configuration.
+
+2. The Noting App — AI Summarizer, Quiz App & Context-Aware Chatbot
+   - AI-powered document summarization and note-taking platform.
+   - Users can upload documents and receive instant AI-generated summaries.
+   - Context-aware chatbot lets users ask questions about their uploaded content.
+
+3. Riverside-Clone for Online Educators
+   Tech Stack: ASR, WebRTC, Cloud-Native Pipeline
+   - Riverside.fm-inspired teaching platform for high-quality remote recording with real-time AI assistance.
+   - Live transcription using ASR, interactive chat for contextual Q&A.
+   - Progressive chunk-based recording for reliability.
+   - Cloud-native pipeline for streaming, buffering, and storing camera-quality audio/video with minimal latency.
+
+4. RAG-Based Portfolio
+   Tech Stack: Langchain, RAG Pipeline, Next.js
+   - Personal portfolio website powered by a Retrieval-Augmented Generation (RAG) pipeline.
+   - Visitors can interactively query information about Arnav's skills, projects, and experience.
+
+--- TECHNICAL SKILLS ---
+
+Generative AI:
+  - Langchain, Langgraph
+  - RAG Pipelines
+  - Multi-Agent LLM Orchestration
+  - AI-based Application Development
+
+Web Development:
+  - MERN Stack (MongoDB, Express, React, Node.js)
+  - Next.js
+  - JavaScript (Frontend + Backend)
+
+Programming Languages:
+  - JavaScript
+  - Python
+
+Tools & Platforms:
+  - Git, GitHub
+  - WebAssembly (Pyodide)
+  - Automatic Speech Recognition (ASR)
+  - Cloud-Native Pipelines
+  - WebRTC
+
+--- COURSES & CERTIFICATIONS ---
+- AWS Machine Learning Foundations — Amazon Web Services (AWS) India
+
+--- PERSONAL INTERESTS ---
+
+Sports:
+  - Football (soccer): Passionate fan and follower of the sport.
+  - Formula 1: Enthusiastic F1 fan; follows races, team strategies, and driver standings.
+
+Automotive:
+  - Cars: Strong interest in automobiles — performance cars, car culture, automotive engineering.
+  - Bikes: Enthusiast for motorcycles and bike culture.
+
+Music:
+  - Genres: Hip-Hop, Rap, Jazz
+  - Listens to a wide variety of music; music is a significant part of daily life.
+  - Platforms: Spotify (primary streaming platform)
+
+Movies & Entertainment:
+  - Enjoys watching movies across genres.
+  - Keeps up with film releases and cinema culture.
+
+--- PERSONALITY & BACKGROUND SUMMARY ---
+Arnav Gawandi is a first-year B.Tech Computer Science student at DJSCE Mumbai with a strong focus on AI, full-stack web development, and GenAI tooling. Despite being in his first year, he has already built production-grade AI-powered applications, won a competitive hackathon, and secured mentorships in two technical college clubs. Outside of tech, he is passionate about football, Formula 1, cars, bikes, music (hip-hop, rap, jazz), and movies — reflecting a well-rounded, curious personality with both technical depth and cultural breadth.
+
+===========================================
+END OF CONTEXT FILE
+===========================================
