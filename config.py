@@ -59,6 +59,8 @@ class Settings(BaseSettings):
         "http://localhost:8081",
         "http://localhost:5173",
         "http://localhost:3000",
+        "https://arnv.in",
+        "https://arnvfolio.vercel.app",
     ]
 
     model_config = {

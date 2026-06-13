@@ -94,8 +94,20 @@ def _format_tool_result(tool_name: str, result: dict) -> str:
         elif result.get("action") == "full_profile":
             source = result.get("source", "spotify")
             username = result.get("username", "")
-            header = f"🎵 MUSIC PROFILE via Last.fm (@{username}) — last 30 days"
+            user_info = result.get("user_info", {})
+            
+            # Format header
+            header = f"🎵 MUSIC PROFILE via Last.fm (@{username})"
             parts = [header]
+            
+            # Add playcount / registration metadata if available
+            if user_info and user_info.get("playcount") != "0":
+                import datetime
+                try:
+                    reg_date = datetime.datetime.fromtimestamp(user_info["registered_unixtime"]).strftime("%B %Y")
+                    parts.append(f"👤 User: {user_info.get('realname') or username} | Total Scrobbles: {int(user_info['playcount']):,} | Scrobbling since: {reg_date}")
+                except Exception:
+                    parts.append(f"👤 Total Scrobbles: {user_info.get('playcount')} plays")
 
             # Currently / recently playing
             recent = result.get("recent", [])
@@ -103,8 +115,7 @@ def _format_tool_result(tool_name: str, result: dict) -> str:
                 now = [t for t in recent if t.get("now_playing")]
                 if now:
                     t = now[0]
-                    parts.append(f"\n🔴 NOW PLAYING: {t['track']} — {t['artist']} (from '{t['album']}')"
-                    )
+                    parts.append(f"\n🔴 NOW PLAYING: {t['track']} — {t['artist']} (from '{t['album']}')")
                 parts.append("\n🕒 RECENTLY PLAYED:")
                 parts.append(f"{'#':<4} {'Track':<35} {'Artist':<25} {'Album':<25} {'When'}")
                 parts.append("-" * 100)
@@ -114,32 +125,48 @@ def _format_tool_result(tool_name: str, result: dict) -> str:
                         f"{t['album'][:24]:<25} {t['played_at'][:16]}"
                     )
 
-            # Top Tracks
-            top_tracks = result.get("top_tracks", [])
-            if top_tracks:
-                parts.append("\n📋 TOP TRACKS (by play count):")
+            # Top Tracks helper
+            def format_tracks(tracks_list, period_name):
+                if not tracks_list:
+                    return
+                parts.append(f"\n📋 TOP TRACKS ({period_name}):")
                 parts.append(f"{'#':<4} {'Track':<35} {'Artist':<30} {'Plays'}")
                 parts.append("-" * 80)
-                for t in top_tracks[:10]:
+                for t in tracks_list[:10]:
                     parts.append(f"{t['rank']:<4} {t['track'][:34]:<35} {t['artist'][:29]:<30} {t['playcount']}")
 
-            # Top Artists
-            top_artists = result.get("top_artists", [])
-            if top_artists:
-                parts.append("\n🎤 TOP ARTISTS (by play count):")
+            # Top Artists helper
+            def format_artists(artists_list, period_name):
+                if not artists_list:
+                    return
+                parts.append(f"\n🎤 TOP ARTISTS ({period_name}):")
                 parts.append(f"{'#':<4} {'Artist':<40} {'Plays'}")
                 parts.append("-" * 55)
-                for a in top_artists[:10]:
+                for a in artists_list[:10]:
                     parts.append(f"{a['rank']:<4} {a['artist'][:39]:<40} {a['playcount']}")
 
-            # Top Albums
-            top_albums = result.get("top_albums", [])
-            if top_albums:
-                parts.append("\n💿 TOP ALBUMS (by play count):")
+            # Top Albums helper
+            def format_albums(albums_list, period_name):
+                if not albums_list:
+                    return
+                parts.append(f"\n💿 TOP ALBUMS ({period_name}):")
                 parts.append(f"{'#':<4} {'Album':<35} {'Artist':<30} {'Plays'}")
                 parts.append("-" * 78)
-                for a in top_albums[:5]:
+                for a in albums_list[:5]:
                     parts.append(f"{a['rank']:<4} {a['album'][:34]:<35} {a['artist'][:29]:<30} {a['playcount']}")
+
+            # Format all periods
+            format_tracks(result.get("top_tracks_4weeks"), "Last 4 Weeks")
+            format_tracks(result.get("top_tracks_6months"), "Last 6 Months")
+            format_tracks(result.get("top_tracks_12months"), "Last 12 Months")
+
+            format_artists(result.get("top_artists_4weeks"), "Last 4 Weeks")
+            format_artists(result.get("top_artists_6months"), "Last 6 Months")
+            format_artists(result.get("top_artists_12months"), "Last 12 Months")
+
+            format_albums(result.get("top_albums_4weeks"), "Last 4 Weeks")
+            format_albums(result.get("top_albums_6months"), "Last 6 Months")
+            format_albums(result.get("top_albums_12months"), "Last 12 Months")
 
             return "\n".join(parts)
 

@@ -33,6 +33,21 @@ class LastFmTool(BaseTool):
             **extra,
         }
 
+    async def _user_info(self, client: httpx.AsyncClient) -> dict:
+        try:
+            resp = await client.get(LASTFM_BASE, params=self._params("user.getinfo", {}))
+            if resp.status_code == 200:
+                user = resp.json().get("user", {})
+                return {
+                    "playcount": user.get("playcount", "0"),
+                    "registered_unixtime": int(user.get("registered", {}).get("unixtime", 0)),
+                    "realname": user.get("realname", ""),
+                    "country": user.get("country", ""),
+                }
+        except Exception as e:
+            logger.error(f"[LastFm] user_info failed: {e}")
+        return {"playcount": "0", "registered_unixtime": 0, "realname": "", "country": ""}
+
     async def _recent_tracks(self, client: httpx.AsyncClient, limit: int = 5) -> list[dict]:
         resp = await client.get(LASTFM_BASE, params=self._params("user.getrecenttracks", {"limit": limit}))
         resp.raise_for_status()
@@ -52,8 +67,8 @@ class LastFmTool(BaseTool):
             })
         return tracks
 
-    async def _top_tracks(self, client: httpx.AsyncClient, limit: int = 10) -> list[dict]:
-        resp = await client.get(LASTFM_BASE, params=self._params("user.gettoptracks", {"limit": limit, "period": "1month"}))
+    async def _top_tracks(self, client: httpx.AsyncClient, period: str = "1month", limit: int = 10) -> list[dict]:
+        resp = await client.get(LASTFM_BASE, params=self._params("user.gettoptracks", {"limit": limit, "period": period}))
         resp.raise_for_status()
         items = resp.json().get("toptracks", {}).get("track", [])
         tracks = []
@@ -67,8 +82,8 @@ class LastFmTool(BaseTool):
             })
         return tracks
 
-    async def _top_artists(self, client: httpx.AsyncClient, limit: int = 10) -> list[dict]:
-        resp = await client.get(LASTFM_BASE, params=self._params("user.gettopartists", {"limit": limit, "period": "1month"}))
+    async def _top_artists(self, client: httpx.AsyncClient, period: str = "1month", limit: int = 10) -> list[dict]:
+        resp = await client.get(LASTFM_BASE, params=self._params("user.gettopartists", {"limit": limit, "period": period}))
         resp.raise_for_status()
         items = resp.json().get("topartists", {}).get("artist", [])
         artists = []
@@ -81,8 +96,8 @@ class LastFmTool(BaseTool):
             })
         return artists
 
-    async def _top_albums(self, client: httpx.AsyncClient, limit: int = 10) -> list[dict]:
-        resp = await client.get(LASTFM_BASE, params=self._params("user.gettopalbums", {"limit": limit, "period": "1month"}))
+    async def _top_albums(self, client: httpx.AsyncClient, period: str = "1month", limit: int = 10) -> list[dict]:
+        resp = await client.get(LASTFM_BASE, params=self._params("user.gettopalbums", {"limit": limit, "period": period}))
         resp.raise_for_status()
         items = resp.json().get("topalbums", {}).get("album", [])
         albums = []
@@ -98,40 +113,67 @@ class LastFmTool(BaseTool):
 
     async def execute(self, **kwargs) -> dict:
         """
-        Fetch a full music profile: recent, top tracks, top artists, top albums — all in parallel.
+        Fetch a full music profile including user details and top lists across multiple periods.
         """
         settings = get_settings()
         if not settings.lastfm_api_key or not settings.lastfm_username:
             raise ValueError("Last.fm credentials not configured (LASTFM_API_KEY, LASTFM_USERNAME)")
 
         async with httpx.AsyncClient(timeout=10.0) as client:
-            recent, top_tracks, top_artists, top_albums = await asyncio.gather(
+            (
+                user_info,
+                recent,
+                top_tracks_4weeks,
+                top_tracks_6months,
+                top_tracks_12months,
+                top_artists_4weeks,
+                top_artists_6months,
+                top_artists_12months,
+                top_albums_4weeks,
+                top_albums_6months,
+                top_albums_12months,
+            ) = await asyncio.gather(
+                self._user_info(client),
                 self._recent_tracks(client, limit=5),
-                self._top_tracks(client, limit=10),
-                self._top_artists(client, limit=10),
-                self._top_albums(client, limit=5),
+                self._top_tracks(client, period="1month", limit=10),
+                self._top_tracks(client, period="6month", limit=10),
+                self._top_tracks(client, period="12month", limit=10),
+                self._top_artists(client, period="1month", limit=10),
+                self._top_artists(client, period="6month", limit=10),
+                self._top_artists(client, period="12month", limit=10),
+                self._top_albums(client, period="1month", limit=5),
+                self._top_albums(client, period="6month", limit=5),
+                self._top_albums(client, period="12month", limit=5),
                 return_exceptions=True,
             )
 
         def _safe(result, fallback):
             return fallback if isinstance(result, Exception) else result
 
-        if isinstance(recent, Exception):
-            logger.error(f"[LastFm] recent_tracks failed: {recent}")
-        if isinstance(top_tracks, Exception):
-            logger.error(f"[LastFm] top_tracks failed: {top_tracks}")
-        if isinstance(top_artists, Exception):
-            logger.error(f"[LastFm] top_artists failed: {top_artists}")
-        if isinstance(top_albums, Exception):
-            logger.error(f"[LastFm] top_albums failed: {top_albums}")
+        # Log exceptions if any failed
+        for task_name, task_res in [
+            ("user_info", user_info), ("recent", recent),
+            ("tracks_4w", top_tracks_4weeks), ("tracks_6m", top_tracks_6months), ("tracks_12m", top_tracks_12months),
+            ("artists_4w", top_artists_4weeks), ("artists_6m", top_artists_6months), ("artists_12m", top_artists_12months),
+            ("albums_4w", top_albums_4weeks), ("albums_6m", top_albums_6months), ("albums_12m", top_albums_12months),
+        ]:
+            if isinstance(task_res, Exception):
+                logger.error(f"[LastFm] {task_name} task failed: {task_res}")
 
         return {
             "tool": "spotify",
             "action": "full_profile",
             "source": "lastfm",
             "username": settings.lastfm_username,
+            "user_info": _safe(user_info, {"playcount": "0", "registered_unixtime": 0, "realname": "", "country": ""}),
             "recent": _safe(recent, []),
-            "top_tracks": _safe(top_tracks, []),
-            "top_artists": _safe(top_artists, []),
-            "top_albums": _safe(top_albums, []),
+            "top_tracks_4weeks": _safe(top_tracks_4weeks, []),
+            "top_tracks_6months": _safe(top_tracks_6months, []),
+            "top_tracks_12months": _safe(top_tracks_12months, []),
+            "top_artists_4weeks": _safe(top_artists_4weeks, []),
+            "top_artists_6months": _safe(top_artists_6months, []),
+            "top_artists_12months": _safe(top_artists_12months, []),
+            "top_albums_4weeks": _safe(top_albums_4weeks, []),
+            "top_albums_6months": _safe(top_albums_6months, []),
+            "top_albums_12months": _safe(top_albums_12months, []),
         }
