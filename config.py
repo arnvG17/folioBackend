@@ -60,6 +60,7 @@ class Settings(BaseSettings):
         "http://localhost:5173",
         "http://localhost:3000",
         "https://arnv.in",
+        "https://www.arnv.in",
         "https://arnvfolio.vercel.app",
     ]
 
