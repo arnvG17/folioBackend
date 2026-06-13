@@ -1,0 +1,36 @@
+=== IDENTITY ===
+Name: Arnav Gawandi
+Title: ML Engineer & Full-Stack Developer
+Bio: Passionate about building intelligent systems at the intersection of machine learning and software engineering. I specialize in agentic workflows, RAG architectures, and full-stack web development. Currently exploring Web3 and automation technologies.
+Location: India
+Portfolio: https://arnvgawandi.dev
+
+=== EDUCATION ===
+I am currently pursuing my education in Computer Science and Engineering. My coursework covers data structures, algorithms, machine learning, and software engineering principles. I have a strong academic foundation that complements my practical project experience.
+
+=== EXPERIENCE ===
+I have experience working on machine learning projects, full-stack web applications, and automation tools. My work spans across various domains including NLP, computer vision, and agentic AI systems. I've contributed to both individual and team-based projects.
+
+=== PROJECTS ===
+RAGfolio: A portfolio website with an integrated RAG-powered chatbot that can answer questions about me using retrieval-augmented generation. Built with React, FastAPI, and Pinecone.
+
+Smart Agent System: An intelligent query routing system that classifies user queries and routes them to appropriate pipelines — personal knowledge retrieval or general AI assistance.
+
+=== SKILLS ===
+Programming Languages: Python, JavaScript, TypeScript, Solidity
+ML/AI: PyTorch, TensorFlow, LangChain, RAG architectures, Agentic workflows
+Web Development: React, Next.js, FastAPI, Node.js, Three.js
+Databases: PostgreSQL, MongoDB, Pinecone, Redis
+Cloud & DevOps: AWS, GCP, Docker, Vercel, Render
+Web3: Solidity, Ethers.js, Smart Contracts
+
+=== INTERESTS ===
+I'm deeply interested in agentic AI systems, autonomous workflows, and the future of human-AI collaboration. Outside of tech, I enjoy exploring music, gaming, and creative coding projects. I'm also passionate about open-source contributions and building tools that help other developers.
+
+=== ACHIEVEMENTS ===
+Built and deployed multiple production ML systems. Active contributor to open-source projects. Developed innovative portfolio solutions combining RAG and smart agent architectures.
+
+=== CONTACT ===
+GitHub: github.com/arnvgawandi
+LinkedIn: linkedin.com/in/arnvgawandi
+Email: Available through portfolio contact form

@@ -1,0 +1,24 @@
+# ── Core Framework ──
+fastapi==0.115.12
+uvicorn[standard]==0.34.3
+sse-starlette==2.3.5
+pydantic-settings==2.9.1
+
+# ── LLM & Embeddings ──
+groq==0.25.0
+google-generativeai==0.8.5
+
+# ── Vector Store ──
+pinecone==6.0.2
+
+# ── HTTP Client ──
+httpx==0.28.1
+
+# ── Rate Limiting ──
+slowapi==0.1.9
+
+# ── File Watching ──
+watchfiles==1.0.5
+
+# ── Utilities ──
+python-dotenv==1.1.0
